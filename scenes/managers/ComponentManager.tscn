@@ -1,0 +1,42 @@
+[gd_scene load_steps=3 format=3 uid="uid://2npucpie70v8"]
+
+[ext_resource type="Script" path="res://scripts/base_component.gd" id="2_ab7l7"]
+
+[sub_resource type="GDScript" id="GDScript_5habr"]
+script/source = "@tool
+extends Node
+
+@export var available_components: Array[PackedScene] = []  # Список доступных компонентов (сцен)
+@export var selected_components: Array[PackedScene] = []  # Выбранные компоненты для применения
+
+# Применить выбранные компоненты к заданной ноде
+func apply_components_to(node: Node):
+	for component in selected_components:
+		if component:
+			var instance = component.instantiate()  # Создаем экземпляр сцены
+			if instance:
+				node.add_child(instance)  # Добавляем экземпляр на сцену
+				instance.owner = node  # Устанавливаем владельца
+				if instance.has_method(\"initialize\"):
+					instance.initialize()  # Вызываем метод инициализации, если он есть
+
+# Проверка наличия компонента на сцене
+func has_component(component_class_name: String) -> bool:
+	# Ищем на текущей сцене компоненты по имени класса
+	for child in get_tree().current_scene.get_children():
+		if child.get_class() == component_class_name:
+			return true  # Компонент найден
+	return false  # Компонент не найден
+
+# Пример использования метода для проверки наличия компонента
+func _ready():
+	if Engine.is_editor_hint():  # Код выполнится только в редакторе
+		if has_component(\"BaseComponent\"):
+			print(\"Component of type BaseComponent is present on the scene\")
+		else:
+			print(\"No component of type BaseComponent found on the scene\")
+"
+
+[node name="ComponentManager" type="Node"]
+script = SubResource("GDScript_5habr")
+available_components = Array[ExtResource("2_ab7l7")]([null])

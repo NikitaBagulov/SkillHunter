@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://d3jo5fg1kivsh"]
+
+[ext_resource type="PackedScene" uid="uid://dxydj1b4uef57" path="res://scenes/enemy.tscn" id="2_7coxr"]
+[ext_resource type="PackedScene" uid="uid://cp21geglhqd3k" path="res://scenes/player.tscn" id="6_6qwo8"]
+
+[node name="Map" type="Node2D"]
+
+[node name="Enemy" parent="." instance=ExtResource("2_7coxr")]
+position = Vector2(252, 78)
+
+[node name="Player" parent="." instance=ExtResource("6_6qwo8")]
+position = Vector2(173, 82)
+lock_rotation = true
+freeze = true

@@ -1,0 +1,140 @@
+[gd_scene load_steps=21 format=3 uid="uid://cp21geglhqd3k"]
+
+[ext_resource type="Script" path="res://scripts/player.gd" id="1_mnrgs"]
+[ext_resource type="Texture2D" uid="uid://ds18cfqak37te" path="res://sprites/player/idle.png" id="2_le00s"]
+[ext_resource type="Texture2D" uid="uid://buv8hvr7bc27f" path="res://sprites/player/walk.png" id="3_5ndxc"]
+[ext_resource type="PackedScene" uid="uid://d0rk3fmvevpgs" path="res://scenes/components/AttackComponent.tscn" id="4_51frf"]
+[ext_resource type="Script" path="res://scripts/camera_2d.gd" id="4_r6hnr"]
+[ext_resource type="PackedScene" uid="uid://doluy2wxtkggr" path="res://scenes/components/HealthComponent.tscn" id="5_57g31"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cv5n6"]
+atlas = ExtResource("2_le00s")
+region = Rect2(0, 0, 80, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_045xb"]
+atlas = ExtResource("2_le00s")
+region = Rect2(80, 0, 80, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r8q2n"]
+atlas = ExtResource("2_le00s")
+region = Rect2(160, 0, 80, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kv2rh"]
+atlas = ExtResource("2_le00s")
+region = Rect2(240, 0, 80, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_01887"]
+atlas = ExtResource("3_5ndxc")
+region = Rect2(0, 0, 80, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5hulb"]
+atlas = ExtResource("3_5ndxc")
+region = Rect2(80, 0, 80, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iekgb"]
+atlas = ExtResource("3_5ndxc")
+region = Rect2(160, 0, 80, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w2hs0"]
+atlas = ExtResource("3_5ndxc")
+region = Rect2(240, 0, 80, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vuxqa"]
+atlas = ExtResource("3_5ndxc")
+region = Rect2(320, 0, 80, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_am7sa"]
+atlas = ExtResource("3_5ndxc")
+region = Rect2(400, 0, 80, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s7pn4"]
+atlas = ExtResource("3_5ndxc")
+region = Rect2(480, 0, 80, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jnm24"]
+atlas = ExtResource("3_5ndxc")
+region = Rect2(560, 0, 80, 80)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_txerd"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cv5n6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_045xb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r8q2n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kv2rh")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_01887")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5hulb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iekgb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w2hs0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vuxqa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_am7sa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s7pn4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jnm24")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 10.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5m6lq"]
+radius = 5.0
+height = 14.0
+
+[node name="Player" type="RigidBody2D"]
+texture_filter = 1
+gravity_scale = 0.0
+script = ExtResource("1_mnrgs")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(5, 5)
+sprite_frames = SubResource("SpriteFrames_txerd")
+animation = &"walk"
+frame_progress = 0.32502
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(5, 5)
+shape = SubResource("CapsuleShape2D_5m6lq")
+
+[node name="Camera2D" type="Camera2D" parent="." node_paths=PackedStringArray("target")]
+limit_left = -9999
+limit_top = -9999
+limit_right = 9999
+limit_bottom = 9999
+position_smoothing_enabled = true
+editor_draw_limits = true
+script = ExtResource("4_r6hnr")
+target = NodePath("..")
+
+[node name="AttackComponent" parent="." instance=ExtResource("4_51frf")]
+
+[node name="HealthComponent" parent="." instance=ExtResource("5_57g31")]
+bar_width = 50.0
+bar_height = 10.0
